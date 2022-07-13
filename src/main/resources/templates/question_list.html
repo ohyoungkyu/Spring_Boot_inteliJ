@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question List</title>
+</head>
+<body>
+    <h2>Question Templates!!</h2>
+    <div th:each="question : ${questionList}">
+        [[${question.id}]] / [[${question.subject}]] / [[${question.content}]] / [[${question.createDate}]]
+    </div>
+</body>
+</html>
