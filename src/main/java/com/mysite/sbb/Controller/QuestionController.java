@@ -1,10 +1,12 @@
 package com.mysite.sbb.Controller;
 
-import com.mysite.sbb.Dao.QuestionRepository;
 import com.mysite.sbb.Domain.Question;
+import com.mysite.sbb.Service.QuestionService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -14,22 +16,22 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionController {
 
-//    @Autowired
-//    private QuestionRepository questionRepository;
+    @Autowired
+    private QuestionService questionService;
 
-    private final QuestionRepository questionRepository;
+    @RequestMapping("/list")
+    public String showQuestions(Model model) {
+        List<Question> questionList =  questionService.getList();
+        model.addAttribute("questionList", questionList);
 
-//    @RequestMapping("/list")
-//    @ResponseBody
-//    public List<Question> showQuestions() {
-//
-//        return questionRepository.findAll();
-//    }
-
-    @RequestMapping("/list1")
-    public String showQuestions1(Model model) {
-        List<Question> questionList = this.questionRepository.findAll();
-        model.addAttribute("questionList",questionList);
         return "question_list";
+    }
+
+    @RequestMapping("/detail/{id}")
+    public String detail(Model model, @PathVariable("id") Integer id) {
+        Question question = this.questionService.getQuestion(id);
+        model.addAttribute("question", question);
+
+        return "question_detail";
     }
 }
